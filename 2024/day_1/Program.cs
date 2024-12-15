@@ -1,29 +1,17 @@
 ﻿
 namespace advent_of_code_day_1
 {
-    class Day1
+    public class Day1
     {
         const string PUZZLE_INPUT = "puzzle_input.txt";
         static void Main(string[] args)
         {
             LocationLists locationLists = ParseInput(PUZZLE_INPUT);
-
-            // Sort lists
-            locationLists.leftList.Sort();
-            locationLists.rightList.Sort();
-
-            // Confirm both lists are equal length (probably dont need to do this oh well)
-            if (locationLists.leftList.Count() != locationLists.rightList.Count())
-            {
-                Console.WriteLine($"Lists dont equal size. {locationLists.leftList.Count()} != {locationLists.rightList.Count()}");
-                return;
-            }
-
-            DistanceBetweenLists(locationLists);
-            SimilarityScore(locationLists);
+            Console.WriteLine($"Distance between lists = {DistanceBetweenLists(locationLists)}");
+            Console.WriteLine($"List similarity score = {SimilarityScore(locationLists)}");
         }
 
-        class LocationLists
+        public class LocationLists
         {
             public List<int> leftList { get; set; }
             public List<int> rightList { get; set; }
@@ -35,7 +23,7 @@ namespace advent_of_code_day_1
             }
         }
 
-        static LocationLists ParseInput(string filePath)
+        public static LocationLists ParseInput(string filePath)
         {
             // Read contents
             var contents = File.ReadAllLines(filePath).ToList();
@@ -53,8 +41,12 @@ namespace advent_of_code_day_1
             return locationLists;
         }
 
-        static void DistanceBetweenLists(LocationLists locationLists)
+        public static int DistanceBetweenLists(LocationLists locationLists)
         {
+            // Sort lists
+            locationLists.leftList.Sort();
+            locationLists.rightList.Sort();
+
             // Define total variable
             int result = 0;
 
@@ -64,11 +56,15 @@ namespace advent_of_code_day_1
                 result += Math.Abs(locationLists.leftList[i] - locationLists.rightList[i]);
             }
 
-            Console.WriteLine($"Distance between lists = {result}");
+            return result;
         }
 
-        static void SimilarityScore(LocationLists locationLists)
+        public static int SimilarityScore(LocationLists locationLists)
         {
+            // Sort lists
+            locationLists.leftList.Sort();
+            locationLists.rightList.Sort();
+
             int result = 0;
 
             for (int i = 0; i < locationLists.leftList.Count(); i++)
@@ -76,7 +72,7 @@ namespace advent_of_code_day_1
                 result += locationLists.leftList[i] * locationLists.rightList.Count(location_id => location_id == locationLists.leftList[i]);
             }
 
-            Console.WriteLine($"List similarity score = {result}");
+            return result;
         }
     }
 }
